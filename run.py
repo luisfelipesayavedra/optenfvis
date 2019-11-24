@@ -43,7 +43,7 @@ def categorias():
     return render_template("index.html", categorias=categorias)
 
 
-@app.route('/categorias/new', methods=["GET", "POST"])
+@app.route('/categorias/new', methods=['GET', 'POST'])
 def categorias_new():
     from models import Categorias
     form = formCategoria(request.form)
@@ -68,7 +68,7 @@ def categoria():
     return render_template('categorias.html', articulos=articulos, categoria=categoria, categorias=categorias)
 
 
-@app.route('/articulos/new', methods=["GET", "POST"])
+@app.route('/articulos/new', methods=['GET', 'POST'])
 def articulos_new():
     from models import Articulos, Categorias
     form = formArticulo()
@@ -89,6 +89,9 @@ def articulos_new():
         return redirect(url_for("home"))
     else:
         return render_template("upload.html", form=form)
+
+
+#TODO: no render 'precio'.
 
 
 '''@app.route('/login', methods=['GET', 'POST'])

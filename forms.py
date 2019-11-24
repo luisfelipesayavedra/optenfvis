@@ -14,7 +14,7 @@ class formCategoria(FlaskForm):
 
 class formArticulo(FlaskForm):
    nombre=StringField("Nombre:", validators=[Required("Tienes que introducir el dato")])
-   precio=DecimalField("Precio:", default=0, validators=[Required("Tienes que introducir el dato")])
+   precio=IntegerField("Precio:", default=0, validators=[Required("Tienes que introducir el dato")])
    descripcion= TextAreaField("Descripción:")
    photo = FileField('Selecciona imagen:')
    CategoriaId=SelectField("Categoría:", coerce=int)

@@ -22,7 +22,7 @@ class Articulos(db.Model):
     __tablename__ = 'articulos'
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    precio = db.Column(db.Float, default=0)
+    precio = db.Column(db.Integer, default=0, nullable=False)
     descripcion = db.Column(db.String(225), nullable=False)
     image = db.Column(db.String(225))
     CategoriaId=db.Column(db.Integer, ForeignKey('categorias.id'))
