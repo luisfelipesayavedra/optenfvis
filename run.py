@@ -1,14 +1,10 @@
-'''run proporciona una cpacidad de enrutamiento de diferentes
-URLs para la comunicacion constante del MVC es el archivo de
-inicializacion y el que recibe los datos para enviarlos al(los)
- modelos y que este los envie directamente a la base de datos'''
 import os
 from flask import Flask, render_template,request, redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf.csrf import CSRFProtect, CSRFError
 import config
-from forms import formArticulo, formCategoria
+from forms import formArticulo, formCategoria, formBnB
 
 
 app = Flask(__name__)
@@ -24,48 +20,6 @@ def home():
     from models import Articulos
     articulos=Articulos.query.all()
     return render_template('index.html', articulos=articulos)
-
-
-@app.route('/articulos/')
-def articulos():
-    return 'lista de articulos'
-
-
-'''@app.route("/articulos/<int:id>")
-def mostrar_ariculo(id):
-	return 'Vamos a mostrar el artículo con id:{}'.format(id)'''
-
-
-@app.route('/categorias', methods=['GET'])
-def categorias():
-    from models import Categorias
-    categorias = Categorias.query.all()
-    return render_template("index.html", categorias=categorias)
-
-
-@app.route('/categorias/new', methods=['GET', 'POST'])
-def categorias_new():
-    from models import Categorias
-    form = formCategoria(request.form)
-    if form.validate_on_submit():
-        cat = Categorias(nombre=form.nombre.data)
-        db.session.add(cat)
-        db.session.commit()
-        return redirect(url_for("categorias"))
-    else:
-        return render_template("categorias_new.html", form=form)
-
-
-@app.route('/categorias/<id>', methods=['GET'])
-def categoria():
-    from models import Categorias, Articulos
-    categoria=Categorias.query.get(id)
-    if id == '0':
-        articulos =Articulos.query.all()
-    else:
-        articulos=Articulos.query.filter_by(CategoriaID=id)
-    categorias=Categorias.query.all()
-    return render_template('categorias.html', articulos=articulos, categoria=categoria, categorias=categorias)
 
 
 @app.route('/articulos/new', methods=['GET', 'POST'])
@@ -91,11 +45,101 @@ def articulos_new():
         return render_template("upload.html", form=form)
 
 
-#TODO: no render 'precio'.
+@app.route('/articulos/<id>/edit', methods=['GET', 'POST'])
+def articulos_edit(id):
+    from models import Articulos, Categorias
+    art = Articulos.query.get(id)
+    if art is None:
+        abort(404)
+    form = formArticulo(obj=art)
+    categorias = [(c.id, c.nombre) for c in Categorias.query.all()[1:]]
+    form.CategoriaId.choices = categorias
+    if form.validate_on_submit():
+        if form.photo.data:
+            os.remove(app.root_path+"static/img"+art.image)
+            try:
+                f = form.photo.data
+                nombre_fichero = secure_filename(f.filename)
+                f.save(app.root_path+"/static/img"+nombre_fichero)
+            except:
+                nombre_fichero=""
+        else:
+            nombre_fichero = art.image
+        form.populate_obj(art)
+        art.image = nombre_fichero
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('upload.html', form=form)
 
 
-'''@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/ariticulos/<id>/delete', methods=['GET', 'POST'])
+def articulos_delete(id):
+    from models import Articulos
+    art=Articulos.query.get(id)
+    if art is None:
+        abort(404)
+    form = formBnB()
+    if form.validate_on_submit():
+        if form.borrar.data:
+            if art.image != "":
+                os.remove(app.root_path+"/static/img/"+art.image)
+            current_db_session = db.session.object_session(art)
+            current_db_session.delete(art)
+            db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("articulos_delete.html", form=form, art=art)
+
+@app.route('/categorias/', methods=['GET'])
+def categorias():
+    from models import Categorias
+    categorias = Categorias.query.all()
+    return render_template("index.html", categorias=categorias)
+
+
+@app.route('/categorias/new', methods=['GET', 'POST'])
+def categorias_new():
+    from models import Categorias
+    form = formCategoria(request.form)
+    if form.validate_on_submit():
+        cat = Categorias(nombre=form.nombre.data)
+        db.session.add(cat)
+        db.session.commit()
+        return redirect(url_for("categorias"))
+    else:
+        return render_template("categorias_new.html", form=form)
+
+
+@app.route('/categorias/<id>/edit', methods=['POST', 'GET'])
+def categorias_edit(id):
+    from models import Categorias
+    cat=Categorias.query.get(id)
+    if cat is None:
+        abort(404)
+    form = formCategoria(request.form, obj=cat)
+    if form.validate_on_submit():
+        form.populate_obj(cat)
+        db.session.commit()
+        return render_template('categorias.html',)
+    return render_template('categorias_new.html', form=form)
+
+
+@app.route('/categorias/<id>/delete', methods=['POST', 'GET'])
+def categorias_delete(id):
+    from models import Categorias
+    cat = Categorias.query.get(id)
+    if cat is None:
+        abort(404)
+    form = formBnB()
+    if form.validate_on_submit():
+        if form.borrar.data:
+            current_db_session = db.session.object_session(cat)
+            current_db_session.delete(cat)
+            db.session.commit()
+        return redirect(url_for('categorias'))
+    return render_template('categorias_delete.html', form=form, cat=cat)
+
+
+'''def login():
     if request.method == 'POST':
         return 'Hemos accedido con POST'
     else:

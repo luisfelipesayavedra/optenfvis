@@ -25,6 +25,7 @@ class Articulos(db.Model):
     precio = db.Column(db.Integer, default=0, nullable=False)
     descripcion = db.Column(db.String(225), nullable=False)
     image = db.Column(db.String(225))
+    wppurl = db.Column(db.String(2000), nullable=False)
     CategoriaId=db.Column(db.Integer, ForeignKey('categorias.id'))
     categoria = relationship("Categorias", backref="Articulos")
 

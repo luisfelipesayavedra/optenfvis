@@ -54,6 +54,7 @@
                 <a class="list-group-item active" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
               {% else %}
                 <a class="list-group-item" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
+                <a href="{{url_for('categorias_delete',id=cat.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a>
               {% endif%}
             {% endfor %}
           </div>
@@ -69,23 +70,26 @@
         <div class="carousel-inner">
   			  <table class="table table-bordered">
             <tr>
+              <th>imagen</th>
               <th>Nombre</th>
               <th>Descripción</th>
               <th>precio</th>
             </tr>
   	    		{% for art in articulos %}
-            <div class="carousel-activate">
+            <td class="carousel-activate">
               {% if art.image %}
               <img src="{{url_for('static',filename='img/')}}{{art.image}}" height="100px" width="100px"/>
-            </div>
+            </td>
               {% else %}
-              <div>
+              <td>
                 <img src="{{url_for('static',filename='img/not-found.png')}}"/>
-              </div>
+              </td>
               {% endif %}
   	    				<td>{{art.nombre}}</td>
                 <td>{{art.descripcion}}</td>
                 <td>{{art.precio|string}}</td>
+                <td><a href="{{art.wppurl}}" target="_blank">ir a whatsapp</a></td>
+                <td><a href="{{url_for('articulos_delete',id=art.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td>
   	    			</tr>
   	    		{% endfor %}
   	    	</table>
