@@ -21,6 +21,13 @@ class formArticulo(FlaskForm):
    CategoriaId=SelectField("Categoría:", coerce=int)
    submit = SubmitField('Enviar')
 
+
 class formBnB(FlaskForm):
     borrar = SubmitField('borrar')
     noborrar = SubmitField('no borrar')
+
+
+class formLogin(FlaskForm):
+      username = StringField('Login', validators=[Required()])
+      password = PasswordField('Password', validators=[Required()])
+      submit = SubmitField('Entrar')

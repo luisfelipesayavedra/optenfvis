@@ -33,39 +33,7 @@ class Articulos(db.Model):
         return (u'<{self.__class__.__name__}: {self.id}>'.format(self=self))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''class Usuarios(db.Model):
+class Usuarios(db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
@@ -90,4 +58,4 @@ def password(self, password):
 
 
 def verify_password(self, password):
-    return check_password_hash(self.password_hash, password)'''
+    return check_password_hash(self.password_hash, password)

@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf.csrf import CSRFProtect, CSRFError
 import config
-from forms import formArticulo, formCategoria, formBnB
+from forms import formArticulo, formCategoria, formBnB, formLogin
 
 
 app = Flask(__name__)
@@ -139,12 +139,25 @@ def categorias_delete(id):
     return render_template('categorias_delete.html', form=form, cat=cat)
 
 
-'''def login():
-    if request.method == 'POST':
-        return 'Hemos accedido con POST'
-    else:
-        return 'Hemos accedido con GET'''
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    from models import Usuarios
+    from login import login_user
+    form = formLogin
+    if form.validate_on_submit():
+        user=Usuarios.query.filter_by(username=form.username.data).first()
+        if user != None and user.verify_password(form.password.data):
+            login_user(user)
+            return redirect(url_for('home'))
+        form.username.errors.append("usuario o contraseña incorrecta")
+    return render_template('login.html', form=form)
 
+
+@app.route("/logout")
+def logout():
+    from login import logout_user
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def page_not_found(error):
