@@ -83,6 +83,8 @@ def articulos_delete(id):
         if form.borrar.data:
             if art.image != "":
                 os.remove(app.root_path+"/static/img/"+art.image)
+            else:
+                form.borrar.data(art)
             current_db_session = db.session.object_session(art)
             current_db_session.delete(art)
             db.session.commit()
@@ -143,7 +145,7 @@ def categorias_delete(id):
 def login():
     from models import Usuarios
     from login import login_user
-    form = formLogin
+    form = formLogin()
     if form.validate_on_submit():
         user=Usuarios.query.filter_by(username=form.username.data).first()
         if user != None and user.verify_password(form.password.data):
