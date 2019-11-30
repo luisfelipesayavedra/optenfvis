@@ -1,0 +1,45 @@
+<div class="no-padding portfolio_container clearfix">
+        {% for art in articulos %}
+          <div class="col-md-4 col-sm-6 logo">
+            {% if art.image %}
+                <img src="{{url_for('static',filename='img/')}}{{art.image}}" height="100px" width="100px"/>
+              </td>
+                {% else %}
+                <td>
+                  <img src="{{url_for('static',filename='img/not-found.png')}}"/>
+                </td>
+                {% endif %}
+                            <td>{{art.nombre}}</td>
+                  <td>{{art.descripcion}}</td>
+                  <td>{{art.precio|string}}</td>
+                  <td><a href="{{art.wppurl}}" target="_blank">ir a whatsapp</a></td>
+                  <td><a href="{{url_for('articulos_delete',id=art.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td>
+                        </tr>
+                    {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Jumbotron categorias -->
+    <div class="container">
+            <div class="jumbotron">
+              <div class="row">
+                <div class="col-md-2">
+                  <h3>Encuentra tu categoria</h3>
+                  <div class="list-group">
+                    {% for cat in categorias %}
+                      {% if categorias.nombre==cat.nombre%}
+                        <a class="list-group-item active" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
+                      {% else %}
+                        <a class="list-group-item" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
+                        <a href="{{url_for('categorias_delete',id=cat.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a>
+                      {% endif%}
+                    {% endfor %}
+                  </div>
+                  <br/>
+                  <a class="btn btn-primary" href="{{url_for('articulos_new')}}" role="button">Nuevo videojuego</a>
+                  <br/>
+                </div>
+              </div>
+            </div>
+            </div>

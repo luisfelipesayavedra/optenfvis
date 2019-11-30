@@ -6,104 +6,122 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--MAIN CSS-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="shortcut" icon” type="image/ico" href="img/ico.ico"/>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <noscript><link rel="stylesheet" href="stattic/assets/css/noscript.css"/></noscript>
+    <link rel="stylesheet" href="static/assets/css/main.css" />
+    <!-- main css -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <script src="static/js/modernizr.js"></script>
     <title>Airvictus</title>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-      </button>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('home')}}">Home <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for("articulos_new")}}">articulos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-            {% if session["id"] %}
-            <a class="navbar-brand " href="/logout"> Hola {{ session["username"]}} (Salir)</a>
-            {% else %}
-            <a class="navbar-brand " href="/login">Login</a>
-            {% endif %}
+    <!--header-->
+    <header id="header" class="alt">
+      <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt="" width="80px" height="70px"></a>
+      <nav id="nav">
+        <ul>
+          <li class="special">
+            <a href="#menu" class="menuToggle"><span>Menu</span></a>
+              <div id="menu">
+                <ul>
+                  <li>
+                    {% if session["id"] %}
+                    <a href="/logout"> {{ session["username"]}}(cerrar)</a>
+                    {% else %}
+                    <a href="/login">Login</a>
+                    {% endif %}
+                  </li>
+                  <li>
+                    <a href="{{url_for('home')}}">Home <span>(current)</span></a>
+                  </li>
+                  <li>
+                    <a class="nav-link" href="{{url_for("articulos_new")}}">articulos</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('categorias')}}">categorias</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </nav>
+    </header>
+      <!--/header-->
+      <!-- Banner -->
+	<section id="banner">
+      <div class="inner">
+        <h2>airvictus</h2>
+        <p>Ropa.<br/>
+        calzado.<br/>
+              accesorios.</p>
+        <ul class="actions special">
+                  <li><a href="https://api.whatsapp.com/send?phone=573116206891&text=Me%20gustar%C3%ADa%20Obtener%20informacion%20de%20tus%20productos" target="_blank" class="button primary">Ir a Whatsapp</a></li>
+                  <li><a href="https://www.facebook.com/AirVictus-366882804170591/" target="_blank" class="button primary-fa" >ir a Facebook</a></li>
+                  <li><a href="https://www.instagram.com/airvictus/" target="_blank" class="button primary-ins" >ir a Instagram</a></li>
+        </ul>
       </div>
-    </nav>
-    <!-- PARALLAX -->
-    <div class="active">
-      <h1>Airvictus</h1>
-    </div>
-    <!-- Jumbotron categorias -->
-    {% block contenido %}
-    <div class="jumbotron">
-      <div class="row">
-        <div class="col-md-2">
-          <h3>Encuentra tu categoria</h3>
-          <div class="list-group">
-            {% for cat in categorias %}
-              {% if categorias.nombre==cat.nombre%}
-                <a class="list-group-item active" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
-              {% else %}
-                <a class="list-group-item" href="{{url_for("home", id=cat.id)}}">{{cat.nombre}}</a>
-                <a href="{{url_for('categorias_delete',id=cat.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a>
-              {% endif%}
-            {% endfor %}
+          <a href="#main-container" class="more scrolly">ver productos</a>
+    </section>
+
+    <div class="main-container portfolio-inner clearfix">
+        <!-- portfolio div -->
+        <div class="portfolio-div">
+            <div class="portfolio">
+                <!-- portfolio_filter -->
+                <div class="categories-grid wow fadeInLeft">
+                    <nav class="categories text-center">
+                        <ul class="portfolio_filter">
+                            {% for cat in categorias %}
+                            {% if categorias.nombre==cat.nombre%}
+                            <li><a href="{{url_for("home", id=cat.id)}}" data-filter=".{{cat.id}}">{cat.nombre}}</a></li>
+                            {% else %}
+                            <li><a href= href="{{url_for("home", id=cat.id)}}" data-filter=".{{cat.id}}">{{cat.nombre}}</a></li>
+                            {% endif%}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                </div>
+     <!-- portfolio_container -->
+     <div class="no-padding portfolio_container clearfix">
+        <!-- single work -->
+        {% for art in articulos %}
+        <div class="col-md-4 col-sm-6 {{art.CategoriaId}}">
+            <a href="{{art.wppurl}}" target="_blank" class="portfolio_item">
+                {% if art.image %}
+                <img src="{{url_for('static',filename='img/')}}{{art.image}}" alt="image" class="img-responsive"/>
+                {% endif %} 
+                <div class="portfolio_item_hover">
+                    <div class="portfolio-border clearfix">
+                        <div class="item_info">
+                            <span>{{art.nombre}}</span>
+                            <em>pedir por whatsapp</em>
+                        </div>
+                    </div>
+                </div>
+            </a>
           </div>
-          <br/>
-          <a class="btn btn-primary" href="{{url_for('articulos_new')}}" role="button">Nuevo videojuego</a>
-          <br/>
-        </div>
-      </div>
-    </div>
-    <!-- carousel -->
-    <div class="carousel slide" data-ride="carousel">
-	    <h3>Nuevas colecciones</h3>
-        <div class="carousel-inner">
-  			  <table class="table table-bordered">
-            <tr>
-              <th>imagen</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>precio</th>
-            </tr>
-  	    		{% for art in articulos %}
-            <td class="carousel-activate">
-              {% if art.image %}
-              <img src="{{url_for('static',filename='img/')}}{{art.image}}" height="100px" width="100px"/>
-            </td>
-              {% else %}
-              <td>
-                <img src="{{url_for('static',filename='img/not-found.png')}}"/>
-              </td>
-              {% endif %}
-  	    				<td>{{art.nombre}}</td>
-                <td>{{art.descripcion}}</td>
-                <td>{{art.precio|string}}</td>
-                <td><a href="{{art.wppurl}}" target="_blank">ir a whatsapp</a></td>
-                <td><a href="{{url_for('articulos_delete',id=art.id)}}"><span class="glyphicon glyphicon-trash"></span> Borrar</a></td>
-  	    			</tr>
-  	    		{% endfor %}
-  	    	</table>
-        </div>
-      </div>
-    </div>
-    {% endblock %}
+          {% endfor %} 
+
+        <!-- end single work -->
+    
     <!--SCRIPTS-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+     <!-- jQuery -->
+    <script src="static/js/jquery-2.1.1.js"></script>
+    <!--  plugins -->
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/menu.js"></script>
+    <script src="static/js/animated-headline.js"></script>
+    <script src="static/js/isotope.pkgd.min.js"></script>
+    <!--  custom script -->
+    <script src="static/js/custom.js"></script>
+    <script src="static/assets/js/jquery.scrollex.min.js"></script>
+    <script src="static/assets/js/jquery.scrolly.min.js"></script>
+    <script src="static/assets/js/browser.min.js"></script>
+    <script src="static/assets/js/breakpoints.min.js"></script>
+    <script src="static/assets/js/util.js"></script>
+    <script src="static/assets/js/main.js"></script>
   </body>
 </html>

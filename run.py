@@ -17,9 +17,10 @@ csrf = CSRFProtect(app)
 
 @app.route('/') #URL principal de la aplicacion que indexa al archivo raiz
 def home():
-    from models import Articulos
+    from models import Articulos, Categorias
     articulos=Articulos.query.all()
-    return render_template('index.html', articulos=articulos)
+    categorias = Categorias.query.all()
+    return render_template('index.html', articulos=articulos, categorias=categorias)
 
 
 @app.route('/articulos/new', methods=['GET', 'POST'])
@@ -90,6 +91,7 @@ def articulos_delete(id):
             db.session.commit()
         return redirect(url_for("home"))
     return render_template("articulos_delete.html", form=form, art=art)
+
 
 @app.route('/categorias/', methods=['GET'])
 def categorias():
