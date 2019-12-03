@@ -18,52 +18,86 @@
   </head>
 
   <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="pre-container">
+            <div class="spinner">
+              <div class="double-bounce1"></div>
+              <div class="double-bounce2"></div>
+           </div>
+      </div>
+   </div>
+
     <!--header-->
     <header id="header" class="alt">
-      <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt="" width="80px" height="70px"></a>
+      <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt="" width="60px" height="55px"></a>
       <nav id="nav">
         <ul>
           <li class="special">
             <a href="#menu" class="menuToggle"><span>Menu</span></a>
               <div id="menu">
                 <ul>
+                  {% if session["id"] %}
                   <li>
-                    {% if session["id"] %}
-                    <a href="/logout"> {{ session["username"]}}(cerrar)</a>
-                    {% else %}
-                    <a href="/login">Login</a>
-                    {% endif %}
+                    <a class="navbar-link" href="/perfil/{{ session["username"]}}"> Perfil</a>
                   </li>
                   <li>
-                    <a href="{{url_for('home')}}">Home <span>(current)</span></a>
+                    <a class="navbar-link" href="/logout"> {{ session["username"]}} (Salir)</a>
+                  </li>
+                  {% else %}
+                  <li>
+                    <a class="navbar-link " href="{{url_for('login')}}">iniciar session</a>
                   </li>
                   <li>
-                    <a class="nav-link" href="{{url_for("articulos_new")}}">articulos</a>
+                    <a class="navbar-link " href="/signup">Registrate</a>
                   </li>
+                  {% endif %}
                   <li>
-                    <a href="{{url_for('categorias')}}">categorias</a>
+                    <a href="{{url_for('home')}}">Home</a>
                   </li>
+                  {%if session["admin"]==True%}
+                  <li>
+                    <a class="nav-link" href="{{url_for("articulos_new")}}">articulos-add</a>
+                  </li>
+                  {%endif%}
+                  {%if session["admin"]==True%}
+                  <li>
+                    <a href="{{url_for('categorias_new')}}">categorias-add</a>
+                  </li>
+                  {%endif%}
+                  {% if session["admin"]==True%}
+                  <li>
+                    <a href="{{url_for('admintab')}}">admintab</a>
+                  </li>
+                  {%endif%}
                 </ul>
               </div>
             </li>
           </ul>
         </nav>
     </header>
-      <!--/header-->
-      <!-- Banner -->
-	<section id="banner">
+    <!--/header-->
+
+    <!-- Banner -->
+	  <section id="banner">
       <div class="inner">
-        <h2>airvictus</h2>
+        <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt=""></a>
         <p>Ropa.<br/>
         calzado.<br/>
-              accesorios.</p>
+        accesorios.</p>
         <ul class="actions special">
-                  <li><a href="https://api.whatsapp.com/send?phone=573116206891&text=Me%20gustar%C3%ADa%20Obtener%20informacion%20de%20tus%20productos" target="_blank" class="button primary">Ir a Whatsapp</a></li>
-                  <li><a href="https://www.facebook.com/AirVictus-366882804170591/" target="_blank" class="button primary-fa" >ir a Facebook</a></li>
-                  <li><a href="https://www.instagram.com/airvictus/" target="_blank" class="button primary-ins" >ir a Instagram</a></li>
+          <li>
+            <a href="https://api.whatsapp.com/send?phone=573116206891&text=Me%20gustar%C3%ADa%20Obtener%20informacion%20de%20tus%20productos" target="_blank" class="button primary">Ir a Whatsapp</a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/AirVictus-366882804170591/" target="_blank" class="button primary-fa" >ir a Facebook</a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/airvictus/" target="_blank" class="button primary-ins" >ir a Instagram</a>
+          </li>
         </ul>
+        <a href="#main-container" class="more scrolly">ver productos</a>
       </div>
-          <a href="#main-container" class="more scrolly">ver productos</a>
     </section>
 
     <div class="main-container portfolio-inner clearfix">
@@ -84,29 +118,86 @@
                         </ul>
                     </nav>
                 </div>
-     <!-- portfolio_container -->
-     <div class="no-padding portfolio_container clearfix">
-        <!-- single work -->
-        {% for art in articulos %}
-        <div class="col-md-4 col-sm-6 {{art.CategoriaId}}">
-            <a href="{{art.wppurl}}" target="_blank" class="portfolio_item">
-                {% if art.image %}
-                <img src="{{url_for('static',filename='img/')}}{{art.image}}" alt="image" class="img-responsive"/>
-                {% endif %} 
-                <div class="portfolio_item_hover">
-                    <div class="portfolio-border clearfix">
-                        <div class="item_info">
-                            <span>{{art.nombre}}</span>
-                            <em>pedir por whatsapp</em>
-                        </div>
-                    </div>
-                </div>
-            </a>
-          </div>
-          {% endfor %} 
+            </div>
+        </div>
+    </div>
 
-        <!-- end single work -->
-    
+    <!-- portfolio_container -->
+    <div class="no-padding portfolio_container clearfix">
+      {% for art in articulos %}
+      <div class="col-md-4 col-sm-6 {{art.CategoriaId}}">
+        <a href="{{art.wppurl}}" target="_blank" class="portfolio_item">
+          {% if art.image %}
+          <img src="{{url_for('static',filename='img/')}}{{art.image}}" alt="image" class="img-responsive" width="500px" height="500px"/>
+          {% endif %} 
+          <div class="portfolio_item_hover">
+            <div class="portfolio-border clearfix">
+              <div class="item_info">
+                <span>{{art.nombre}}</span>
+                <span>{{art.descripcion}}</span>
+                <em>pedir por whatsapp</em>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %} 
+    </div>  
+      
+      <!-- end single work -->
+        <footer class="page-footer font-small cyan darken-3">
+
+          <!-- Footer Elements -->
+          <div class="container">
+        
+            <!-- Grid row-->
+            <div class="row">
+        
+              <!-- Grid column -->
+              <div class="col-md-12 py-5">
+                <div class="mb-5 flex-center">
+        
+                  <!-- Facebook -->
+                  <a class="fb-ic">
+                    <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                  </a>
+                  <!-- Twitter -->
+                  <a class="tw-ic">
+                    <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                  </a>
+                  <!-- Google +-->
+                  <a class="gplus-ic">
+                    <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                  </a>
+                  <!--Linkedin -->
+                  <a class="li-ic">
+                    <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                  </a>
+                  <!--Instagram-->
+                  <a class="ins-ic">
+                    <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                  </a>
+                  <!--Pinterest-->
+                  <a class="pin-ic">
+                    <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
+                  </a>
+                </div>
+              </div>
+              <!-- Grid column -->
+        
+            </div>
+            <!-- Grid row-->
+        
+          </div>
+          <!-- Footer Elements -->
+        
+          <!-- Copyright -->
+          <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+          </div>
+          <!-- Copyright -->
+        
+        </footer>
     <!--SCRIPTS-->
      <!-- jQuery -->
     <script src="static/js/jquery-2.1.1.js"></script>

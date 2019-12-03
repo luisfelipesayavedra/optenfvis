@@ -119,7 +119,7 @@
     								<li>
                                         <a href="{{url_for('home')}}">Home <span>(current)</span></a>
                                     </li>
-    								<li><a href="#">Sign Up</a></li>-->
+    								<!--<li><a href="#">Sign Up</a></li>-->
     								<!--<li><a href="#">Log In</a></li>-->
     							</ul>
     						</div>
@@ -153,13 +153,12 @@
                 <div class="categories-grid wow fadeInLeft">
                     <nav class="categories text-center">
                         <ul class="portfolio_filter">
-                            {% for cat in categorias %}
-                            {% if categorias.nombre==cat.nombre%}
-                            <li><a href="{{url_for("home", id=cat.id)}}" class="active" data-filter="*">{cat.nombre}}</a></li>
-                            {% else %}
-                            <li><a href= href="{{url_for("home", id=cat.id)}}" class="active" data-filter="*">{{cat.nombre}}</a></li>
-                            {% endif%}
-                            {% endfor %}
+                            <li><a href="" class="active" data-filter="*">todo</a></li>
+                            <li><a href="" data-filter=".photography">Ropa y Calzado Mujer</a></li>
+                            <li><a href="" data-filter=".logo">Ropa y Calzado Hombre</a></li>
+                            <li><a href="" data-filter=".graphics">Ropa y Calzado Niño</a></li>
+                            <li><a href="" data-filter=".ads">Accesorios</a></li>
+                            <li><a href="" data-filter=".fashion">Perfumes</a></li>
                         </ul>
                     </nav>
                 </div>

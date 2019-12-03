@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf.csrf import CSRFProtect, CSRFError
 import config
-from forms import formArticulo, formCategoria, formBnB, formLogin
+from forms import formArticulo, formCategoria, formBnB, formLogin, formRegistro
 
 
 app = Flask(__name__)
@@ -23,9 +23,20 @@ def home():
     return render_template('index.html', articulos=articulos, categorias=categorias)
 
 
+@app.route('/admintab')
+def admintab():
+    from models import Articulos, Categorias
+    categorias=Categorias.query.all()
+    articulos = Articulos.query.all()
+    return render_template('articulos_admin.html', categorias=categorias, articulos=articulos)
+
+
 @app.route('/articulos/new', methods=['GET', 'POST'])
 def articulos_new():
     from models import Articulos, Categorias
+    from login import is_admin
+    if not is_admin():
+        Abort(404)
     form = formArticulo()
     categorias = [(c.id, c.nombre) for c in Categorias.query.all()[1:]]
     form.CategoriaId.choices = categorias
@@ -41,7 +52,7 @@ def articulos_new():
         art.image = nombre_fichero
         db.session.add(art)
         db.session.commit()
-        return redirect(url_for("home"))
+        return redirect(url_for("admintab"))
     else:
         return render_template("upload.html", form=form)
 
@@ -89,7 +100,7 @@ def articulos_delete(id):
             current_db_session = db.session.object_session(art)
             current_db_session.delete(art)
             db.session.commit()
-        return redirect(url_for("home"))
+        return redirect(url_for("admintab"))
     return render_template("articulos_delete.html", form=form, art=art)
 
 
@@ -97,7 +108,7 @@ def articulos_delete(id):
 def categorias():
     from models import Categorias
     categorias = Categorias.query.all()
-    return render_template("index.html", categorias=categorias)
+    return render_template("articulos_admin.html", categorias=categorias)
 
 
 @app.route('/categorias/new', methods=['GET', 'POST'])
@@ -108,7 +119,7 @@ def categorias_new():
         cat = Categorias(nombre=form.nombre.data)
         db.session.add(cat)
         db.session.commit()
-        return redirect(url_for("categorias"))
+        return redirect(url_for("admintab"))
     else:
         return render_template("categorias_new.html", form=form)
 
@@ -118,7 +129,7 @@ def categorias_edit(id):
     from models import Categorias
     cat=Categorias.query.get(id)
     if cat is None:
-        abort(404)
+        Abort(404)
     form = formCategoria(request.form, obj=cat)
     if form.validate_on_submit():
         form.populate_obj(cat)
@@ -139,14 +150,16 @@ def categorias_delete(id):
             current_db_session = db.session.object_session(cat)
             current_db_session.delete(cat)
             db.session.commit()
-        return redirect(url_for('categorias'))
+        return redirect(url_for('admintab'))
     return render_template('categorias_delete.html', form=form, cat=cat)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     from models import Usuarios
-    from login import login_user
+    from login import login_user, is_login
+    if is_login():
+        return redirect(url_for("inicio"))
     form = formLogin()
     if form.validate_on_submit():
         user=Usuarios.query.filter_by(username=form.username.data).first()
@@ -163,9 +176,65 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    from models import Usuarios
+    form = formRegistro()
+    if form.validate_on_submit():
+        user_exist = Usuarios.query.\
+            filter_by(username=form.username.data).first()
+        if user_exist is None and form.password_c is form.password:
+            user=Usuarios()
+            form.populate_obj(user)
+            user.admin = False
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('home'))
+        elif form.password_c is not form.password:
+                form.password.errors.append("la contraseña no coincide")
+        else:
+            form.username.errors.append("Nombre de Usuario en uso")
+    return render_template('signup_form.html', form=form)
+
+
+@app.route('/perfil/<username>', methods=["get", "post"])
+def perfil(username):
+    from models import Usuarios
+    user = Usuarios.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    form = formRegistro(request.form, obj=user)
+    del form.password
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        db.session.commit()
+        return redirect(url_for("inicio"))
+    return render_template("signup_form.html", form=form, perfil=True)
+
+
+'''@app.route('/changepassword/<username>', methods=["get", "post"])
+def changepassword(username):
+    from aplicacion.models import Usuarios
+    user = Usuarios.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    form = FormChangePassword()
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        db.session.commit()
+        return redirect(url_for("inicio"))
+    return render_template("changepassword.html", form=form)'''
+#TODO:crear la pagina para cambiar la contraseña y que inicie sesion cuando se registre
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html")
+
+@app.route('/politicasdeprivacidad/')
+def politicasdeprivacidad():
+    return render_template('politicas_de_privacidad.html')
 
 
 if __name__ == '__main__':

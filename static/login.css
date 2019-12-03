@@ -4,8 +4,10 @@ body,
 			margin: 20px;
 			padding: 0;
 			height: 100%;
-			background: #ffffff !important;
+			background: #FAF0E6;
 		}
+
+
 		.user_card {
 			height: 400px;
 			width: 350px;
