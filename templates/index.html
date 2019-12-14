@@ -3,18 +3,30 @@
 
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--MAIN CSS-->
-    <link rel="shortcut" icon” type="image/ico" href="img/ico.ico"/>
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <noscript><link rel="stylesheet" href="stattic/assets/css/noscript.css"/></noscript>
-    <link rel="stylesheet" href="static/assets/css/main.css" />
-    <!-- main css -->
-    <link href="static/css/style.css" rel="stylesheet">
-    <script src="static/js/modernizr.js"></script>
-    <title>Airvictus</title>
+    <title>Optica enfoque visual</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{{url_for('static', filename='lib/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{{url_for('static', filename='lib/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='lib/animate/animate.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='lib/lightbox/css/lightbox.min.css')}}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
   </head>
 
   <body>
@@ -29,190 +41,455 @@
    </div>
 
     <!--header-->
-    <header id="header" class="alt">
-      <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt="" width="60px" height="55px"></a>
-      <nav id="nav">
-        <ul>
-          <li class="special">
-            <a href="#menu" class="menuToggle"><span>Menu</span></a>
-              <div id="menu">
+    <header id="header" class="fixed-top">
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
+        <a href="#intro" class="scrollto"><img src="{{url_for('static', filename='img/logo')}}" alt="" class="img-fluid" width="80px" height="100px"></a>
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul class="special">
+          <li class="active"><a href="#intro">Inicio</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#portfolio">Productos</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <!--<li><a href="#team">Team</a></li>>
+          <li class="drop-down"><a href="">Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="drop-down"><a href="#">Drop Down 2</a>
                 <ul>
-                  {% if session["id"] %}
-                  <li>
-                    <a class="navbar-link" href="/perfil/{{ session["username"]}}"> Perfil</a>
-                  </li>
-                  <li>
-                    <a class="navbar-link" href="/logout"> {{ session["username"]}} (Salir)</a>
-                  </li>
-                  {% else %}
-                  <li>
-                    <a class="navbar-link " href="{{url_for('login')}}">iniciar session</a>
-                  </li>
-                  <li>
-                    <a class="navbar-link " href="/signup">Registrate</a>
-                  </li>
-                  {% endif %}
-                  <li>
-                    <a href="{{url_for('home')}}">Home</a>
-                  </li>
-                  {%if session["admin"]==True%}
-                  <li>
-                    <a class="nav-link" href="{{url_for("articulos_new")}}">articulos-add</a>
-                  </li>
-                  {%endif%}
-                  {%if session["admin"]==True%}
-                  <li>
-                    <a href="{{url_for('categorias_new')}}">categorias-add</a>
-                  </li>
-                  {%endif%}
-                  {% if session["admin"]==True%}
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="#">Drop Down 5</a></li>
+            </ul>
+          </li>-->
+          {% if session["id"] %}
+          <li>
+            <a href="/perfil/{{ session["username"]}}">perfil</a>
+          </li>
+          <li>
+            <a href="{{url_for('logout')}}">{{ session["username"]}} (Salir)</a>
+          </li>
+          {%else%}
+          <li>
+            <a href="{{url_for('login')}}">iniciar sesion</a>
+          </li>
+          <li>
+            <a href="/signup">Registrate</a>
+          </li>
+          {%endif%}
+          {% if session["admin"]==True%}
                   <li>
                     <a href="{{url_for('admintab')}}">admintab</a>
                   </li>
-                  {%endif%}
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
-    </header>
-    <!--/header-->
+          {%endif%}
+          <li><a href="#contact">Encuentranos</a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+
+    </div>
+  </header><!-- #header -->
 
     <!-- Banner -->
-	  <section id="banner">
-      <div class="inner">
-        <a class="p-4" href="#"><img src="static/inimg/logo2.png" alt=""></a>
-        <p>Ropa.<br/>
-        calzado.<br/>
-        accesorios.</p>
-        <ul class="actions special">
-          <li>
-            <a href="https://api.whatsapp.com/send?phone=573116206891&text=Me%20gustar%C3%ADa%20Obtener%20informacion%20de%20tus%20productos" target="_blank" class="button primary">Ir a Whatsapp</a>
-          </li>
-          <li>
-            <a href="https://www.facebook.com/AirVictus-366882804170591/" target="_blank" class="button primary-fa" >ir a Facebook</a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/airvictus/" target="_blank" class="button primary-ins" >ir a Instagram</a>
-          </li>
-        </ul>
-        <a href="#main-container" class="more scrolly">ver productos</a>
-      </div>
-    </section>
-
-    <div class="main-container portfolio-inner clearfix">
-        <!-- portfolio div -->
-        <div class="portfolio-div">
-            <div class="portfolio">
-                <!-- portfolio_filter -->
-                <div class="categories-grid wow fadeInLeft">
-                    <nav class="categories text-center">
-                        <ul class="portfolio_filter">
-                            {% for cat in categorias %}
-                            {% if categorias.nombre==cat.nombre%}
-                            <li><a href="{{url_for("home", id=cat.id)}}" data-filter=".{{cat.id}}">{cat.nombre}}</a></li>
-                            {% else %}
-                            <li><a href= href="{{url_for("home", id=cat.id)}}" data-filter=".{{cat.id}}">{{cat.nombre}}</a></li>
-                            {% endif%}
-                            {% endfor %}
-                        </ul>
-                    </nav>
-                </div>
+	  <section id="intro" class="clearfix">
+        <div class="container">
+    
+          <div class="intro-img">
+            <img src="{{url_for('static', filename='img/orig.png')}}" alt="" class="img-fluid">
+          </div>
+    
+          <div class="intro-info">
+            <h2>Optica<br><span>Enfoque Visual</span><br>Somos calidad</h2>
+            <div>
+              <a href="#about" class="btn-get-started scrollto">¿Quienes somos?</a>
+              <a href="#services" class="btn-services scrollto">Nuestros servicios</a>
             </div>
+          </div>
+    
         </div>
-    </div>
-
-    <!-- portfolio_container -->
-    <div class="no-padding portfolio_container clearfix">
-      {% for art in articulos %}
-      <div class="col-md-4 col-sm-6 {{art.CategoriaId}}">
-        <a href="{{art.wppurl}}" target="_blank" class="portfolio_item">
-          {% if art.image %}
-          <img src="{{url_for('static',filename='img/')}}{{art.image}}" alt="image" class="img-responsive" width="500px" height="500px"/>
-          {% endif %} 
-          <div class="portfolio_item_hover">
-            <div class="portfolio-border clearfix">
-              <div class="item_info">
-                <span>{{art.nombre}}</span>
-                <span>{{art.descripcion}}</span>
-                <em>pedir por whatsapp</em>
+      </section>
+      <section id="about">
+          <div class="container">
+    
+            <header class="section-header">
+              <h3>Nosotros</h3>
+              <p>Atendemos consulta de Optometría,  y  realizamos Brigadas Empresariales de Salud Visual.</p>
+            </header>
+    
+            <div class="row about-container">
+    
+              <div class="col-lg-6 content order-lg-1 order-2">
+                <p>
+                    Somos una empresa dedicada a preservar y mejorar la salud visual y ocular del ser humano. Contamos con un reconocido equipo de profesionales de la salud, con experiencias de más de 15 años en el sector, quienes ponen a disposición de la comunidad un servicio amable, responsable, ético y con la más alta calidad.
+                    
+                    Contamos con consultorios especializados, óptica y consultorio móvil .
+                </p>
+    
+                <div class="icon-box wow fadeInUp">
+                  <div class="icon"><i class="fa fa-shopping-bag"></i></div>
+                  <h4 class="title"><a href="">Compras faciles</a></h4>
+                  <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+                </div>
+    
+                <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+                  <div class="icon"><i class="fa fa-photo"></i></div>
+                  <h4 class="title"><a href="">Hecho a tu medida</a></h4>
+                  <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                </div>
+    
+                <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+                  <div class="icon"><i class="fa fa-bar-chart"></i></div>
+                  <h4 class="title"><a href="">Personal y empresarial</a></h4>
+                  <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+                </div>
+            </div>
+            <div class="col-lg-6 background order-lg-2 order-1 wow fadeInUp">
+                <img src="{{url_for('static', filename='img/1.webp')}}" class="img-fluid" alt="">
               </div>
             </div>
           </div>
-        </a>
-      </div>
-      {% endfor %} 
-    </div>  
+        </section><!-- #about -->
+       
+        <section id="portfolio" class="clearfix">
+            <div class="container">
+              <!-- portfolio div -->
+                      <header class="section-header">
+                          <h3 class="section-title">Nuestros Productos</h3>
+                        </header>
+                      <!-- portfolio_filter -->
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <ul id="portfolio-flters">
+                                  <li data-filter="*" class="filter-active">Todo</li>
+                                  {% for cat in categorias %}
+              {% if categorias.nombre==cat.nombre%}
+              <li data-filter=".filter-{{cat.id}}">{cat.nombre}}</li>
+              {% else %}
+              <li data-filter=".filter-{{cat.id}}">{{cat.nombre}}</li>
+              {% endif%}
+              {% endfor %}
+                                </ul>
       
-      <!-- end single work -->
-        <footer class="page-footer font-small cyan darken-3">
+                      </div>
+                  </div>
+              </div>
+      
+            <!-- portfolio_container -->
+            <div class="row portfolio-container">
+                {% for art in articulos %}
+                <div class="col-lg-4 col-md-6 portfolio-item filter-{{art.CategoriaId}}">
+                  <div class="portfolio-wrap">
+                      {% if art.image %}
+                    <img src="{{url_for('static',filename='img/')}}{{art.image}}" class="img-fluid" alt="">
+                    {% endif %} 
+                    <div class="portfolio-info">
+                      <h4><a href="#">{{art.nombre}}</a></h4>
+                      <p>{{art.descripcion}}</p>
+                      <p>{{art.precio}}</p>
+                      <div>
+                        {% if art.image %}
+                        <a href="{{url_for('static',filename='img/')}}{{art.image}}" data-lightbox="portfolio" data-title="{{art.nombre}}" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                        <a href="{{art.wppurl}}" class="link-details" title="More Details" target="_blank"><i class="ion ion-android-open"></i></a>
+                        {% endif %}   
+                      </div>
+                    </div>
+                  </div>
+                   
+                </div>
+                {% endfor %}
+            </div>
+          </section>  
 
-          <!-- Footer Elements -->
-          <div class="container">
-        
-            <!-- Grid row-->
-            <div class="row">
-        
-              <!-- Grid column -->
-              <div class="col-md-12 py-5">
-                <div class="mb-5 flex-center">
-        
-                  <!-- Facebook -->
-                  <a class="fb-ic">
-                    <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                  </a>
-                  <!-- Twitter -->
-                  <a class="tw-ic">
-                    <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                  </a>
-                  <!-- Google +-->
-                  <a class="gplus-ic">
-                    <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                  </a>
-                  <!--Linkedin -->
-                  <a class="li-ic">
-                    <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                  </a>
-                  <!--Instagram-->
-                  <a class="ins-ic">
-                    <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                  </a>
-                  <!--Pinterest-->
-                  <a class="pin-ic">
-                    <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
-                  </a>
+        <section id="services" class="section-bg">
+            <div class="container">
+      
+              <header class="section-header">
+                <h3>Services</h3>
+                <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus.</p>
+              </header>
+      
+              <div class="row">
+      
+                <div class="col-md-6 col-lg-5 offset-lg-1 wow bounceInUp" data-wow-duration="1.4s">
+                  <div class="box">
+                    <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
+                    <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-5 wow bounceInUp" data-wow-duration="1.4s">
+                  <div class="box">
+                    <div class="icon"><i class="ion-ios-bookmarks-outline" style="color: #e9bf06;"></i></div>
+                    <h4 class="title"><a href="">Dolor Sitema</a></h4>
+                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+                  </div>
+                </div>
+      
+                <div class="col-md-6 col-lg-5 offset-lg-1 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                  <div class="box">
+                    <div class="icon"><i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i></div>
+                    <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-5 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                  <div class="box">
+                    <div class="icon"><i class="ion-ios-speedometer-outline" style="color:#41cf2e;"></i></div>
+                    <h4 class="title"><a href="">Magni Dolores</a></h4>
+                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                  </div>
                 </div>
               </div>
-              <!-- Grid column -->
-        
             </div>
-            <!-- Grid row-->
+          </section><!-- #services -->
+          <section id="why-us" class="wow fadeIn">
+              <div class="container">
+                <header class="section-header">
+                  <h3>Why choose us?</h3>
+                  <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus.</p>
+                </header>
         
+                <div class="row row-eq-height justify-content-center">
+        
+                  <div class="col-lg-4 mb-4">
+                    <div class="card wow bounceInUp">
+                        <i class="fa fa-diamond"></i>
+                      <div class="card-body">
+                        <h5 class="card-title">Corporis dolorem</h5>
+                        <p class="card-text">Deleniti optio et nisi dolorem debitis. Aliquam nobis est temporibus sunt ab inventore officiis aut voluptatibus.</p>
+                        <a href="#" class="readmore">Read more </a>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-lg-4 mb-4">
+                    <div class="card wow bounceInUp">
+                        <i class="fa fa-language"></i>
+                      <div class="card-body">
+                        <h5 class="card-title">Voluptates dolores</h5>
+                        <p class="card-text">Voluptates nihil et quis omnis et eaque omnis sint aut. Ducimus dolorum aspernatur.</p>
+                        <a href="#" class="readmore">Read more </a>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-lg-4 mb-4">
+                    <div class="card wow bounceInUp">
+                        <i class="fa fa-object-group"></i>
+                      <div class="card-body">
+                        <h5 class="card-title">Eum ut aspernatur</h5>
+                        <p class="card-text">Autem quod nesciunt eos ea aut amet laboriosam ab. Eos quis porro in non nemo ex. </p>
+                        <a href="#" class="readmore">Read more </a>
+                      </div>
+                    </div>
+                  </div>
+        
+                </div>
+        
+                <div class="row counters">
+        
+                  <div class="col-lg-3 col-6 text-center">
+                    <span data-toggle="counter-up">274</span>
+                    <p>Clients</p>
+                  </div>
+        
+                  <div class="col-lg-3 col-6 text-center">
+                    <span data-toggle="counter-up">421</span>
+                    <p>Projects</p>
+                  </div>
+        
+                  <div class="col-lg-3 col-6 text-center">
+                    <span data-toggle="counter-up">1,364</span>
+                    <p>Hours Of Support</p>
+                  </div>
+        
+                  <div class="col-lg-3 col-6 text-center">
+                    <span data-toggle="counter-up">18</span>
+                    <p>Hard Workers</p>
+                  </div>
+          
+                </div>
+        
+              </div>
+            </section>
+            <section id="contact">
+                <div class="container-fluid">
+          
+                  <div class="section-header">
+                    <h3>Contact Us</h3>
+                  </div>
+          
+                  <div class="row wow fadeInUp">
+                    <div class="col-lg-6">
+                        <h2 class="text-center">Copacabana</h2>
+                      <div class="map mb-4 mb-lg-0 p-4">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 312px;" allowfullscreen></iframe>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="text-center">Caldas</h2>
+                        <div class="map mb-4 mb-lg-0 p-4">
+                          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 312px;" allowfullscreen></iframe>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <h2 class="text-center">Barbosa</h2>
+                          <div class="map mb-4 mb-lg-0 p-4">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 312px;" allowfullscreen></iframe>
+                          </div>
+                      </div>
+                    <div class="col-lg-6">
+                      <div class="row">
+                        <div class="col-md-5 info">
+                          <i class="ion-ios-location-outline"></i>
+                          <p>A108 Adam Street, NY 535022</p>
+                        </div>
+                        <div class="col-md-5 info">
+                            <i class="ion-ios-location-outline"></i>
+                            <p>A108 Adam Street, NY 535022</p>
+                          </div>
+                          <div class="col-md-5 info">
+                              <i class="ion-ios-location-outline"></i>
+                              <p>A108 Adam Street, NY 535022</p>
+                            </div>
+                        <div class="col-md-4 info">
+                          <i class="ion-ios-email-outline"></i>
+                          <p>info@example.com</p>
+                        </div>
+                        <div class="col-md-3 info">
+                          <i class="ion-ios-telephone-outline"></i>
+                          <p>+1 5589 55488 55</p>
+                        </div>
+                      </div>
+          
+                      <div class="form">
+                        <div id="sendmessage">Your message has been sent. Thank you!</div>
+                        <div id="errormessage"></div>
+                        <form action="" method="post" role="form" class="contactForm">
+                          <div class="form-row">
+                            <div class="form-group col-lg-6">
+                              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                              <div class="validation"></div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                              <div class="validation"></div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                            <div class="validation"></div>
+                          </div>
+                          <div class="form-group">
+                            <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                            <div class="validation"></div>
+                          </div>
+                          <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+                        </form>
+                      </div>
+                    </div>
+          
+                  </div>
+          
+                </div>
+              </section><!-- #contact -->        
+      
+    <footer id="footer">
+        <div class="footer-top">
+          <div class="container">
+            <div class="row">
+    
+              <div class="col-lg-4 col-md-6 footer-info">
+                <h3>NewBiz</h3>
+                <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+              </div>
+    
+              <div class="col-lg-2 col-md-6 footer-links">
+                <h4>Useful Links</h4>
+                <ul>
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">About us</a></li>
+                  <li><a href="#">Services</a></li>
+                  <li><a href="#">Terms of service</a></li>
+                  <li><a href="#">Privacy policy</a></li>
+                </ul>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 footer-contact">
+                <h4>Contact Us</h4>
+                <p>
+                  A108 Adam Street <br>
+                  New York, NY 535022<br>
+                  United States <br>
+                  <strong>Phone:</strong> +1 5589 55488 55<br>
+                  <strong>Email:</strong> info@example.com<br>
+                </p>
+    
+                <div class="social-links">
+                  <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                  <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                </div>
+    
+              </div>
+    
+              <div class="col-lg-3 col-md-6 footer-newsletter">
+                <h4>Our Newsletter</h4>
+                <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem marada parida nodela caramase seza.</p>
+                <form action="" method="post">
+                  <input type="email" name="email"><input type="submit"  value="Subscribe">
+                </form>
+              </div>
+    
+            </div>
           </div>
-          <!-- Footer Elements -->
-        
-          <!-- Copyright -->
-          <div class="footer-copyright text-center py-3">© 2018 Copyright:
-            <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+        </div>
+    
+        <div class="container">
+          <div class="copyright">
+            &copy; Copyright <strong>NewBiz</strong>. All Rights Reserved
           </div>
-          <!-- Copyright -->
-        
-        </footer>
+          <div class="credits">
+            <!--
+              All the links in the footer should remain intact.
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=NewBiz
+            -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+      </footer><!-- #footer -->
     <!--SCRIPTS-->
      <!-- jQuery -->
-    <script src="static/js/jquery-2.1.1.js"></script>
-    <!--  plugins -->
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/menu.js"></script>
-    <script src="static/js/animated-headline.js"></script>
-    <script src="static/js/isotope.pkgd.min.js"></script>
-    <!--  custom script -->
-    <script src="static/js/custom.js"></script>
-    <script src="static/assets/js/jquery.scrollex.min.js"></script>
-    <script src="static/assets/js/jquery.scrolly.min.js"></script>
-    <script src="static/assets/js/browser.min.js"></script>
-    <script src="static/assets/js/breakpoints.min.js"></script>
-    <script src="static/assets/js/util.js"></script>
-    <script src="static/assets/js/main.js"></script>
+     <script src="static/lib/jquery/jquery.min.js"></script>
+     <script src="static/lib/jquery/jquery-migrate.min.js"></script>
+     <script src="static/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="static/lib/easing/easing.min.js"></script>
+     <script src="static/lib/mobile-nav/mobile-nav.js"></script>
+     <script src="static/lib/wow/wow.min.js"></script>
+     <script src="static/lib/waypoints/waypoints.min.js"></script>
+     <script src="static/lib/counterup/counterup.min.js"></script>
+     <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+     <script src="static/lib/isotope/isotope.pkgd.min.js"></script>
+     <script src="static/lib/lightbox/js/lightbox.min.js"></script>
+     <!-- Contact Form JavaScript File -->
+     <script src="static/contactform/contactform.js"></script>
+   
+     <!-- Template Main Javascript File -->
+     <script src="static/js/main.js"></script>
   </body>
 </html>

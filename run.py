@@ -38,7 +38,7 @@ def articulos_new():
     if not is_admin():
         Abort(404)
     form = formArticulo()
-    categorias = [(c.id, c.nombre) for c in Categorias.query.all()[1:]]
+    categorias = [(c.id, c.nombre) for c in Categorias.query.all()]
     form.CategoriaId.choices = categorias
     if form.validate_on_submit():
         try:
@@ -170,7 +170,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route("/logout")
+@app.route("/logout", methods=['get'])
 def logout():
     from login import logout_user
     logout_user()

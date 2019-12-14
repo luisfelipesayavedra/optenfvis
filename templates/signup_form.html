@@ -30,8 +30,8 @@
                 <div class="alert alert-danger">
                   {{ form[field].label }}: {{ ', '.join(errors) }}
                 </div>
-                {% endfor %}
-                {{ form.csrf_token }}
+              {% endfor %}
+              {{ form.csrf_token }}
               <div class="input-group mb-3">
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -47,10 +47,10 @@
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
                 {% if not perfil %}
-          {{form.password(class="form-control", placeholder="Contraseña")}}<br/>
-        {% else %}
-          <a href="/changepassword/{{session["username"]}}">Cambiar contraseña</a><br/>
-        {% endif %}
+                  {{form.password(class="form-control", placeholder="Contraseña")}}<br/>
+                {% else %}
+                  <a href="/changepassword/{{session["username"]}}">Cambiar contraseña</a><br/>
+                {% endif %}
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-append">
@@ -59,22 +59,27 @@
                   {{form.password_c(class="form-control input_user", placeholder="Confirmar contraseña")}}
               </div>
               <div class="input-group mb-3">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fas fa-restroom"></i></span>
-                  </div>
-                    {{form.nombre(class="form-control input_user", placeholder="Nombre")}}
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-restroom"></i></span>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-append">
-                      <span class="input-group-text"><i class="fas fa-envelope-open-text"></i></span>
-                    </div>
-                      {{form.email(class="form-control input_user", placeholder="email")}}
-                  </div>    
+                {{form.nombre(class="form-control input_user", placeholder="Nombre")}}
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fas fa-envelope-open-text"></i></span>
+                </div>
+                {{form.email(class="form-control input_user", placeholder="email")}}
+              </div>    
               <div class="d-flex justify-content-center mt-3 login_container">
                 <button class="btn login_btn">{{submit}}registrarse</button>
               </div>
-              <div class="text-center p-3">he leido y estoy de acuerdo con las </br><a href="{{url_for('politicasdeprivacidad')}}">politicas de privacidad </a>{{form.checkbox}}</div>
-              <div class="text-center p-3"><a href="{{url_for('home')}}">volver a la pagina de inicio</a></div>
+              <div class="text-center p-3">he leido y estoy de acuerdo con las>
+                <a href="{{url_for('politicasdeprivacidad')}}">politicas de privacidad </a>
+                {{form.checkbox}}
+              </div>
+              <div class="text-center p-3">
+                <a href="{{url_for('home')}}">volver a la pagina de inicio</a>
+              </div>
             </form>
           </div>
         </div>      
