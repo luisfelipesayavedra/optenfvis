@@ -26,7 +26,7 @@ def home():
 @app.route('/admintab')
 def admintab():
     from models import Articulos, Categorias
-    categorias=Categorias.query.all()
+    categorias = Categorias.query.all()
     articulos = Articulos.query.all()
     return render_template('articulos_admin.html', categorias=categorias, articulos=articulos)
 
@@ -35,11 +35,14 @@ def admintab():
 def articulos_new():
     from models import Articulos, Categorias
     from login import is_admin
+
     if not is_admin():
-        Abort(404)
+        return render_template('404.html')
+
     form = formArticulo()
-    categorias = [(c.id, c.nombre) for c in Categorias.query.all()]
+    categorias = [(c.id, c.nombre) for c in Categorias.query.all()[1:]]
     form.CategoriaId.choices = categorias
+
     if form.validate_on_submit():
         try:
             f = form.photo.data
@@ -47,17 +50,20 @@ def articulos_new():
             f.save(app.root_path + "/static/img/" + nombre_fichero)
         except:
             nombre_fichero = ""
+
         art = Articulos()
         form.populate_obj(art)
         art.image = nombre_fichero
+        current_db_session = db.session.object_session(art)
         db.session.add(art)
         db.session.commit()
         return redirect(url_for("admintab"))
+
     else:
         return render_template("upload.html", form=form)
 
 
-@app.route('/articulos/<id>/edit', methods=['GET', 'POST'])
+""""@app.route('/articulos/<id>/edit', methods=['GET', 'POST'])
 def articulos_edit(id):
     from models import Articulos, Categorias
     art = Articulos.query.get(id)
@@ -81,34 +87,35 @@ def articulos_edit(id):
         art.image = nombre_fichero
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('upload.html', form=form)
+    return render_template('upload.html', form=form)"""
 
 
 @app.route('/ariticulos/<id>/delete', methods=['GET', 'POST'])
 def articulos_delete(id):
     from models import Articulos
-    art=Articulos.query.get(id)
+    from login import is_admin
+
+    art = Articulos.query.get(id)
+
     if art is None:
-        abort(404)
+        return "<h1>No existe el archivo</h2>"
+
+    if not is_admin():
+        return render_template('404.html')
+
     form = formBnB()
+
     if form.validate_on_submit():
         if form.borrar.data:
             if art.image != "":
                 os.remove(app.root_path+"/static/img/"+art.image)
             else:
                 form.borrar.data(art)
-            current_db_session = db.session.object_session(art)
-            current_db_session.delete(art)
+            current_db_session = db.session.merge(art)
+            db.session.delete(current_db_session)
             db.session.commit()
         return redirect(url_for("admintab"))
     return render_template("articulos_delete.html", form=form, art=art)
-
-
-@app.route('/categorias/', methods=['GET'])
-def categorias():
-    from models import Categorias
-    categorias = Categorias.query.all()
-    return render_template("articulos_admin.html", categorias=categorias)
 
 
 @app.route('/categorias/new', methods=['GET', 'POST'])
@@ -141,14 +148,18 @@ def categorias_edit(id):
 @app.route('/categorias/<id>/delete', methods=['POST', 'GET'])
 def categorias_delete(id):
     from models import Categorias
+
     cat = Categorias.query.get(id)
+
     if cat is None:
-        abort(404)
+        return "<h1>No existe la categoria</h2>"
+
     form = formBnB()
+
     if form.validate_on_submit():
         if form.borrar.data:
-            current_db_session = db.session.object_session(cat)
-            current_db_session.delete(cat)
+            current_db_session = db.session.merge(cat)
+            db.session.delete(current_db_session)
             db.session.commit()
         return redirect(url_for('admintab'))
     return render_template('categorias_delete.html', form=form, cat=cat)
@@ -238,4 +249,4 @@ def politicasdeprivacidad():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

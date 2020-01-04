@@ -41,3 +41,14 @@ class formRegistro(FlaskForm):
     email = StringField('email', validators=[Required()])
     checkbox = BooleanField(' ', validators=[Required()])
     submit = SubmitField('Registrarse')
+
+
+class formRegistroDV(FlaskForm):
+    username = StringField('username', validators=[Required()])
+    password = PasswordField('contraseña', validators=[Required()])
+    password_c = PasswordField('confirmar contraseña', validators=[Required()])
+    nombre = StringField('nombre', validators=[Required()])
+    email = EmailField('email', validators=[Required()])
+    empleado = BooleanField(' ')
+    cedula = IntegerField('Cedula')
+    submit = SubmitField('Registrarse')

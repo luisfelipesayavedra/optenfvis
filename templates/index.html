@@ -24,6 +24,7 @@
     <link href="{{url_for('static', filename='lib/ionicons/css/ionicons.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='lib/lightbox/css/lightbox.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Main Stylesheet File -->
   <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
@@ -172,7 +173,7 @@
                           <div class="col-lg-12">
                               <ul id="portfolio-flters">
                                   <li data-filter="*" class="filter-active">Todo</li>
-                                  {% for cat in categorias %}
+                                  {% for cat in categorias[1:] %}
               {% if categorias.nombre==cat.nombre%}
               <li data-filter=".filter-{{cat.id}}">{cat.nombre}}</li>
               {% else %}
@@ -200,7 +201,7 @@
                       <div>
                         {% if art.image %}
                         <a href="{{url_for('static',filename='img/')}}{{art.image}}" data-lightbox="portfolio" data-title="{{art.nombre}}" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
-                        <a href="{{art.wppurl}}" class="link-details" title="More Details" target="_blank"><i class="ion ion-android-open"></i></a>
+                        <a href="{{art.wppurl}}" class="link-details" title="More Details" target="_blank"><i class="fa fa-whatsapp"></i></a>
                         {% endif %}   
                       </div>
                     </div>

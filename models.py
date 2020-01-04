@@ -26,7 +26,7 @@ class Articulos(db.Model):
     descripcion = db.Column(db.String(225), nullable=False)
     image = db.Column(db.String(225))
     wppurl = db.Column(db.String(2000), nullable=False)
-    CategoriaId=db.Column(db.Integer, ForeignKey('categorias.id'))
+    CategoriaId = db.Column(db.Integer, ForeignKey('categorias.id'))
     categoria = relationship("Categorias", backref="Articulos")
 
     def __repr__(self):
@@ -41,7 +41,8 @@ class Usuarios(db.Model):
     nombre = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
     admin = db.Column(db.Boolean, default=False)
-
+    empleado = db.Column(db.Boolean, default=False)
+    cedula = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return (u'<{self.__class__.__name__}: {self.id}>'.format(self=self))
