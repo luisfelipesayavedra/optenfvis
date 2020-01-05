@@ -26,18 +26,3 @@ def is_admin():
         return session.get("admin", True)
     else:
         return session.get("admin", False)
-
-@app.context_processor
-def login():
-    if "id" in session:
-        return {'is_login': True}
-    else:
-        return {'is_login': False}
-
-
-@app.context_processor
-def admin():
-    if "admin" == True:
-        return session.get("admin", True)
-    else:
-        return session.get("admin", False)
