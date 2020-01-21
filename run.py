@@ -28,6 +28,11 @@ def sitemap():
     return render_template('sitemap.xml')
 
 
+@app.route('/robots.txt')
+def robots():
+    return render_template('robots.txt')
+
+
 @app.route('/admintab')
 def admintab():
     from models import Articulos, Categorias
