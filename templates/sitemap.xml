@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://www.enfovisual.com/</loc>
+  <lastmod>2020-01-21T14:06:32+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.enfovisual.com/login</loc>
+  <lastmod>2020-01-21T14:06:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enfovisual.com/signup/</loc>
+  <lastmod>2020-01-21T14:06:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enfovisual.com/www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.2934806759863!2d-75.6397572852315!3d6.0911101955892795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMDUnMjguMCJOIDc1wrAzOCcxNS4zIlc!5e0!3m2!1ses!2sco!4v1579019891332!5m2!1ses!2sco</loc>
+  <lastmod>2020-01-21T14:06:32+00:00</lastmod>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://www.enfovisual.com/politicasdeprivacidad/</loc>
+  <lastmod>2020-01-21T14:06:32+00:00</lastmod>
+  <priority>0.30</priority>
+</url>
+
+
+</urlset>

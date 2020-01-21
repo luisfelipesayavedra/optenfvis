@@ -23,6 +23,11 @@ def home():
     return render_template('index.html', articulos=articulos, categorias=categorias)
 
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return render_template('sitemap.xml')
+
+
 @app.route('/admintab')
 def admintab():
     from models import Articulos, Categorias
