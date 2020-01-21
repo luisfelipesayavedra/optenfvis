@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template,request, redirect,url_for
+from flask import Flask, render_template,request, redirect,url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_wtf.csrf import CSRFProtect, CSRFError
@@ -31,6 +31,15 @@ def sitemap():
 @app.route('/robots.txt')
 def robots():
     return render_template('robots.txt')
+
+
+@app.route('/op_img')
+def op_img():
+    if request.args.get('type') == '1':
+       filename = 'static/inimg/op-img.jpg'
+    else:
+       filename = 'static/inimg/op-img.jpg'
+    return send_file(filename, mimetype='image/jpg')
 
 
 @app.route('/admintab')
