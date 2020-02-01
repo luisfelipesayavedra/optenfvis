@@ -18,7 +18,7 @@ csrf = CSRFProtect(app)
 @app.route('/') #URL principal de la aplicacion que indexa al archivo raiz
 def home():
     from models import Articulos, Categorias
-    articulos=Articulos.query.all()
+    articulos = Articulos.query.all()
     categorias = Categorias.query.all()
     return render_template('index.html', articulos=articulos, categorias=categorias)
 
@@ -130,10 +130,10 @@ def articulos_delete(id):
                 os.remove(app.root_path+"/static/img/"+art.image)
             else:
                 form.borrar.data(art)
-            current_db_session = db.session.merge(art)
-            db.session.delete(current_db_session)
-            db.session.commit()
-        return redirect(url_for("admintab"))
+    current_db_session = db.session.merge(art)
+    db.session.delete(current_db_session)
+    db.session.commit()
+    return redirect(url_for("admintab"))
     return render_template("articulos_delete.html", form=form, art=art)
 
 
