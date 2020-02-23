@@ -16,7 +16,7 @@ class formArticulo(FlaskForm):
    nombre=StringField("Nombre:", validators=[Required("Tienes que introducir el dato")])
    precio=IntegerField("Precio:", default=0, validators=[Required("Tienes que introducir el dato")])
    descripcion= TextAreaField("Descripción:")
-   photo = FileField('Selecciona imagen:', validators=[Required("tienes que enviar las imagenes")])
+   photo = FileField('Selecciona imagen:')
    wppurl =StringField("enlace de whatsapp")
    CategoriaId=SelectField("Categoría:", coerce=int)
    submit = SubmitField('Enviar')

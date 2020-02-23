@@ -29,14 +29,14 @@
               <div class="input-group mb-3">
                 {{form.nombre(class="form-control", placeholder="Nombre")}}<br/>
               </div>
-            <div class="input-group mb-3">
+              <div class="input-group mb-3">
               {{form.precio(class="form-control", placeholder="Precio")}}<br/>
-            </div>
-            <div class="input-group mb-3" >
-              {{form.photo()}}<br/>
-            </div>
-            <div class="input-group mb-3">
-              <br/>{{form.descripcion(class="form-control", placeholder="descripcion")}}<br/>
+              </div>
+              <div class="input-group mb-3">
+              {{form.photo}}<br/>
+              </div>
+              <div class="input-group mb-3">
+                {{form.descripcion(class="form-control", placeholder="descripcion")}}<br/>
               </div>
               <div class="input-group mb-3">
                 <br/>{{form.wppurl(class="form-control", placeholder="Link de Whatsapp")}}<br/>
@@ -48,7 +48,7 @@
                 {{form.submit(class="btn login_btn")}}
             </div>
             <div class="text-center p-3"><a href="{{url_for('home')}}">volver a la pagina de inicio</a></div>
-          </div>  
+          </div> 
         </div>    
       </div>
     </div>

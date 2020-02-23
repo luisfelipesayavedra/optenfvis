@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from flask_wtf.csrf import CSRFProtect, CSRFError
 import config
 from forms import formArticulo, formCategoria, formBnB, formLogin, formRegistro
+import pyrebase
 
 
 app = Flask(__name__)
@@ -13,6 +14,19 @@ db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'ZgI3| Krz=9: 8RbP |6c|;'
 PWD = os.path.abspath(os.curdir)
 csrf = CSRFProtect(app)
+
+firebaseConfig = {
+    "apiKey": "AIzaSyCSA4YAGmrAZo8jU4HFGI1UgEmLOZbR2v4",
+    "authDomain": "enfovisual-efe58.firebaseapp.com",
+    "databaseURL": "https://enfovisual-efe58.firebaseio.com",
+    "projectId": "enfovisual-efe58",
+    "storageBucket": "enfovisual-efe58.appspot.com",
+    "messagingSenderId": "59273870243",
+    "appId": "1:59273870243:web:9b400bd65f7e23e850b816"
+  }
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+storage = firebase.storage()
 
 
 @app.route('/') #URL principal de la aplicacion que indexa al archivo raiz
@@ -52,10 +66,12 @@ def admintab():
 
 @app.route('/articulos/new', methods=['GET', 'POST'])
 def articulos_new():
+    global nombre_fichero
     from models import Articulos, Categorias
     from login import is_admin
 
     if not is_admin():
+        abort(404)
         return render_template('404.html')
 
     form = formArticulo()
@@ -66,13 +82,16 @@ def articulos_new():
         try:
             f = form.photo.data
             nombre_fichero = secure_filename(f.filename)
-            f.save(app.root_path + "/static/img/" + nombre_fichero)
+
+            upload = request.files["photo"]
+            storage.child('images/' + nombre_fichero).put(upload)
         except:
             nombre_fichero = ""
 
+        imglink = storage.child('images/' + nombre_fichero).get_url(None)
         art = Articulos()
         form.populate_obj(art)
-        art.image = nombre_fichero
+        art.image = imglink
         current_db_session = db.session.object_session(art)
         db.session.add(art)
         db.session.commit()
@@ -82,31 +101,33 @@ def articulos_new():
         return render_template("upload.html", form=form)
 
 
-""""@app.route('/articulos/<id>/edit', methods=['GET', 'POST'])
+@app.route('/articulos/<id>/edit', methods=['GET', 'POST'])
 def articulos_edit(id):
     from models import Articulos, Categorias
+    from login import is_admin
     art = Articulos.query.get(id)
-    if art is None:
+    if art is None and not is_admin:
         abort(404)
+        return render_template('404.html')
     form = formArticulo(obj=art)
     categorias = [(c.id, c.nombre) for c in Categorias.query.all()[1:]]
     form.CategoriaId.choices = categorias
     if form.validate_on_submit():
-        if form.photo.data:
-            os.remove(app.root_path+"static/img"+art.image)
-            try:
-                f = form.photo.data
-                nombre_fichero = secure_filename(f.filename)
-                f.save(app.root_path+"/static/img"+nombre_fichero)
-            except:
-                nombre_fichero=""
+        try:
+            f = form.photo.data
+            nombre_fichero = secure_filename(f.filename)
+
+            upload = request.files["photo"]
+            storage.child('images/' + nombre_fichero).put(upload)
+        except:
+            nombre_fichero = ""
         else:
-            nombre_fichero = art.image
+            nombre_fichero = storage.child('images/' + nombre_fichero).get_url(None)
         form.populate_obj(art)
         art.image = nombre_fichero
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('upload.html', form=form)"""
+    return render_template('upload.html', form=form)
 
 
 @app.route('/ariticulos/<id>/delete', methods=['GET', 'POST'])
@@ -189,7 +210,7 @@ def login():
     from models import Usuarios
     from login import login_user, is_login
     if is_login():
-        return redirect(url_for("inicio"))
+        return redirect(url_for("home"))
     form = formLogin()
     if form.validate_on_submit():
         user=Usuarios.query.filter_by(username=form.username.data).first()

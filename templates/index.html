@@ -224,15 +224,15 @@
                 <div class="col-lg-4 col-md-6 portfolio-item filter-{{art.CategoriaId}}">
                   <div class="portfolio-wrap">
                       {% if art.image %}
-                    <img src="{{url_for('static',filename='img/')}}{{art.image}}" class="img-fluid" alt="">
+                    <img src="{{art.image}}" class="img-fluid" alt="">
                     {% endif %} 
                     <div class="portfolio-info">
-                      <h4><a href="#">{{art.nombre}}</a></h4>
+                      <h4><a href="{{art.wppurl}}">{{art.nombre}}</a></h4>
                       <p>{{art.descripcion}}</p>
                       <p>{{art.precio}}</p>
                       <div>
                         {% if art.image %}
-                        <a href="{{url_for('static',filename='img/')}}{{art.image}}" data-lightbox="portfolio" data-title="{{art.nombre}}" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                        <a href="{{art.image}}" data-lightbox="portfolio" data-title="{{art.nombre}}" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
                         <a href="{{art.wppurl}}" class="link-details" title="More Details" target="_blank"><i class="fa fa-whatsapp"></i></a>
                         {% endif %}   
                       </div>

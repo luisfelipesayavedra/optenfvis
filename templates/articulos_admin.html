@@ -14,45 +14,51 @@
       <div class="row">
         <div class="col-md-10">
           <h3>Tabla de Categorias</h3>
-            <div class="list-group">
-              <table>
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Numero</th>
-                      <th>borrar</th>
-                    </tr>
+          <div class="list-group">
+            <table>
+              <tr>
+                <th>Nombre</th>
+                <th>Numero</th>
+                <th>borrar</th>
+              </tr>
               {% for cat in categorias %}
-                {% if categorias.nombre==cat.nombre%}
-                <tr>
-                  <td>
-                    <a class="list-group-item active" >{{cat.nombre}}</a>
-                  </td>  
-                  <td>
-                      <a class="list-group-item active" >{{cat.id|string}}</a>
-                    </td> 
-                    <td>
-                      <a href="{{url_for('categorias_delete',id=cat.id)}}" class="btn btn-primary mt-4"> Borrar</a>
-                    </td>
-                  </tr>    
-                {% else %}
+              {% if categorias.nombre==cat.nombre%}
+              <tr>
+                <td>
+                  <a class="list-group-item active" >{{cat.nombre}}</a>
+                </td>  
+                <td>
+                  <a class="list-group-item active" >{{cat.id|string}}</a>
+                </td> 
+                <td>
+                  <a href="{{url_for('categorias_delete',id=cat.id)}}" class="btn btn-primary mt-4"> Borrar</a>
+                </td>
+                <td>
+                  <a href="{{url_for('Categorias_edit',id=cat.id)}}" class="waves-effect waves-light btn">Editar</a>
+                </td>
+              </tr>
+              {% else %}
               <tr>  
-                      <td>
-                    <a class="list-group-item" >{{cat.nombre}}</a>
-                  </td>
-                  <td>
-                      <a class="list-group-item active" >{{cat.id|string}}</a>
-                    </td> 
-                    <td>
-                      <a href="{{url_for('categorias_delete',id=cat.id)}}" class="btn btn-primary mt-4"> Borrar</a>
-                    </td>
-                  </tr>
-                {% endif%}
+                <td>
+                  <a class="list-group-item" >{{cat.nombre}}</a>
+                </td>
+                <td>
+                  <a class="list-group-item active" >{{cat.id|string}}</a>
+                </td> 
+                <td>
+                  <a href="{{url_for('categorias_delete',id=cat.id)}}" class="btn btn-primary mt-4"> Borrar</a>
+                </td>
+                <td>
+                  <a href="{{url_for('categorias_edit',id=cat.id)}}" class="waves-effect waves-light btn">Editar</a>
+                </td>
+              </tr>
+              {% endif%}
               {% endfor %}
             </table> 
-            </div>
-            <br/>
-            <a class="waves-effect waves-light btn p-3 mt-3" href="{{url_for('categorias_new')}}" role="button">Nueva categoria</a> 
           </div>
+          <br/>
+          <a class="waves-effect waves-light btn p-3 mt-3" href="{{url_for('categorias_new')}}" role="button">Nueva categoria</a> 
+        </div>
           <div class="col-md-10">
 	          <h3>Tabla de Articulos</h3>
 	            <div class="panel panel-default">
@@ -62,13 +68,14 @@
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>PVP</th>
-                    <th>categoria</th>
+                    <th>Categoria</th>
+                    <th>Editar</th>
                     <th>Borrar</th>
                   </tr>
-                {% for art in articulos %}
+                  {% for art in articulos %}
                   <tr>
                   {% if art.image %}
-                    <td><img src="{{url_for('static',filename='img/')}}{{art.image}}" width="100px" height="100px"/>
+                    <td><img src="{{art.image}}" width="100px" height="100px"/>
                   {% else %}
                     <td><img src="{{url_for('static',filename='img/not-found.png')}}"/>
                   {% endif %}
@@ -77,7 +84,8 @@
                     <td>{{art.precio|string}}</td>
                     <td>{{art.CategoriaId}}</td>
                     <td><a href="{{url_for('articulos_delete',id=art.id)}}" class="waves-effect waves-light btn"> Borrar</a></td>
-  	    			    </tr>
+                    <td><a href="{{url_for('articulos_edit',id=art.id)}}" class="waves-effect waves-light btn">Editar</a></td>
+                  </tr>
                 {% endfor %}
   	    	    </table>
             <a class="waves-effect waves-light btn" href="{{url_for('articulos_new')}}" role="button">Nuevo articulo</a>
